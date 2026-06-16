@@ -35,3 +35,39 @@ class User(UserMixin, db.Model):
 
     def __repr__(self):
         return f'<User {self.username}>'
+    
+    from . import login_manager
+
+    @login_manager.user_loader
+    def load_user(user_id):
+        return User.query.get(int(user_id))
+
+
+class Ride(db.Model):
+
+    id = db.Column(
+        db.Integer,
+        primary_key=True
+    )
+
+    user_id = db.Column(
+        db.Integer,
+        db.ForeignKey('user.id')
+    )
+
+    date = db.Column(
+        db.Date,
+        nullable=False
+    )
+
+    distance = db.Column(
+        db.Float,
+        nullable=False
+    )
+
+    duration = db.Column(
+        db.Float,
+        nullable=False
+    )
+
+   

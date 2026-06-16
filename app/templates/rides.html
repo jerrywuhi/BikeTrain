@@ -1,0 +1,27 @@
+<h1>🚴 我的騎乘紀錄</h1>
+
+<table border="1">
+
+    <tr>
+        <th>日期</th>
+        <th>距離(km)</th>
+        <th>時間(hr)</th>
+    </tr>
+
+    {% for ride in rides %}
+
+    <tr>
+        <td>{{ ride.date }}</td>
+        <td>{{ ride.distance }}</td>
+        <td>{{ ride.duration }}</td>
+    </tr>
+
+    {% endfor %}
+
+</table>
+
+<br>
+
+<a href="/dashboard">
+    返回 Dashboard
+</a>

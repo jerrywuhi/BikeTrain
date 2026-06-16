@@ -1,0 +1,29 @@
+<h1>🚴 新增騎乘紀錄</h1>
+
+<form method="POST">
+
+    {{ form.hidden_tag() }}
+
+    <p>
+        {{ form.date.label }}
+        <br>
+        {{ form.date() }}
+    </p>
+
+    <p>
+        {{ form.distance.label }}
+        <br>
+        {{ form.distance() }}
+    </p>
+
+    <p>
+        {{ form.duration.label }}
+        <br>
+        {{ form.duration() }}
+    </p>
+
+    <p>
+        {{ form.submit() }}
+    </p>
+
+</form>

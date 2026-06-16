@@ -2,6 +2,8 @@ from flask_wtf import FlaskForm
 from wtforms import StringField
 from wtforms import PasswordField
 from wtforms import SubmitField
+from wtforms import DateField, FloatField
+from wtforms.validators import DataRequired
 
 from wtforms.validators import (
     DataRequired,
@@ -45,3 +47,41 @@ class RegistrationForm(FlaskForm):
     )
 
     submit = SubmitField('註冊')
+
+class LoginForm(FlaskForm):
+
+    email = StringField(
+        'Email',
+        validators=[
+            DataRequired(),
+            Email()
+        ]
+    )
+
+    password = PasswordField(
+        '密碼',
+        validators=[
+            DataRequired()
+        ]
+    )
+
+    submit = SubmitField('登入')
+
+class RideForm(FlaskForm):
+
+    date = DateField(
+        '日期',
+        validators=[DataRequired()]
+    )
+
+    distance = FloatField(
+        '距離(km)',
+        validators=[DataRequired()]
+    )
+
+    duration = FloatField(
+        '時間(hr)',
+        validators=[DataRequired()]
+    )
+
+    submit = SubmitField('新增紀錄')

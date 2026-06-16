@@ -1,0 +1,24 @@
+<h1>歡迎 {{ user.username }}</h1>
+
+<p>FTP: {{ user.ftp }}</p>
+
+<p>體重: {{ user.weight }}</p>
+
+<hr>
+
+<h2>訓練統計</h2>
+
+<p>總騎乘次數：{{ total_rides }}</p>
+
+<p>總騎乘距離：{{ total_distance }} km</p>
+
+<p>總騎乘時間：{{ total_duration }} hr</p>
+
+<a href="/ride/add">
+    新增騎乘紀錄
+</a>
+<br><br>
+
+<a href="/rides">
+    查看所有騎乘紀錄
+</a>
