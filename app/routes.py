@@ -62,11 +62,9 @@ def register():
 
 @main.route('/login', methods=['GET', 'POST'])
 def login():
-
     form = LoginForm()
 
     if form.validate_on_submit():
-
         user = User.query.filter_by(
             email=form.email.data
         ).first()
@@ -75,13 +73,12 @@ def login():
             user.password,
             form.password.data
         ):
-
             login_user(user)
-
             return redirect(
                 url_for('main.dashboard')
             )
-
+        
+       
     return render_template(
         'login.html',
         form=form
@@ -93,6 +90,105 @@ def dashboard():
     rides = Ride.query.filter_by(
     user_id=current_user.id
     ).all()
+
+    avg_speeds = []
+
+    for ride in rides:
+
+        if ride.duration > 0:
+
+            avg_speeds.append(
+                round(
+                    ride.distance /
+                    ride.duration,
+                    1
+                )
+            )
+
+    if current_user.weight > 0:
+        wkg = round(
+            current_user.ftp /
+            current_user.weight,
+            2
+    )
+    else:
+        wkg = 0
+    if wkg < 2:
+        rider_level = "新手騎士"
+
+    elif wkg < 3:
+        rider_level = "休閒騎士"
+
+    elif wkg < 4:
+        rider_level = "進階騎士"
+
+    elif wkg < 5:
+        rider_level = "競賽級騎士"
+
+    else:
+        rider_level = "菁英級騎士"
+
+    if wkg < 2:
+        rider_level = "新手騎士"
+
+    elif wkg < 3:
+        rider_level = "休閒騎士"
+
+    elif wkg < 4:
+        rider_level = "進階騎士"
+
+    elif wkg < 5:
+        rider_level = "競賽級騎士"
+
+    else:
+        rider_level = "菁英級騎士"
+
+    ftp = current_user.ftp
+
+    z1 = int(ftp * 0.55)
+
+    z2_low = int(ftp * 0.56)
+    z2_high = int(ftp * 0.75)
+
+    z3_low = int(ftp * 0.76)
+    z3_high = int(ftp * 0.90)
+
+    z4_low = int(ftp * 0.91)
+    z4_high = int(ftp * 1.05)
+
+    z5_low = int(ftp * 1.06)
+    z5_high = int(ftp * 1.20)
+
+    if wkg < 2:
+        advice = """
+        建議每週騎乘 2~3 次，
+        培養基礎有氧能力。
+            """
+
+    elif wkg < 3:
+        advice = """
+        增加長距離 Z2 訓練，
+        提升耐力。
+        """
+
+    elif wkg < 4:
+        advice = """
+        每週安排：
+        2 次 Z2
+        1 次 FTP 訓練
+        """
+
+    elif wkg < 5:
+        advice = """
+        增加 VO2Max 訓練，
+        強化高強度輸出。
+        """
+
+    else:
+        advice = """
+        已達菁英等級，
+        建議週期化訓練。
+        """
 
     total_distance = sum(
         ride.distance for ride in rides
@@ -114,13 +210,30 @@ def dashboard():
         for ride in rides
     ]
     return render_template(
-        'dashboard.html',
-        user=current_user,
-        total_distance=total_distance,
-        total_duration=total_duration,
-        total_rides=total_rides,
-        ride_dates=ride_dates,
-        ride_distances=ride_distances
+    'dashboard.html',
+    user=current_user,
+    total_distance=total_distance,
+    total_duration=total_duration,
+    total_rides=total_rides,
+    ride_dates=ride_dates,
+    ride_distances=ride_distances,
+    wkg=wkg,
+    rider_level=rider_level,
+    advice=advice,
+    avg_speeds=avg_speeds,
+    z1=z1,
+
+    z2_low=z2_low,
+    z2_high=z2_high,
+
+    z3_low=z3_low,
+    z3_high=z3_high,
+
+    z4_low=z4_low,
+    z4_high=z4_high,
+
+    z5_low=z5_low,
+    z5_high=z5_high,
     )
         
 @main.route('/ride/add', methods=['GET', 'POST'])

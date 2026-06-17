@@ -12,17 +12,44 @@
 
     <p>體重：{{ user.weight }}</p>
 
+    <p>W/kg：{{ wkg }}</p>
+
+    <p>等級：{{ rider_level }}</p>
+
 </div>
 
 <div class="card p-3 mt-3">
 
     <h4>訓練統計</h4>
 
+
     <p>總騎乘次數：{{ total_rides }}</p>
 
     <p>總距離：{{ total_distance }} km</p>
 
     <p>總時間：{{ total_duration }} hr</p>
+
+</div>
+
+<div class="card p-3 mt-3">
+    <h4>訓練建議</h4>
+
+    <p>{{ advice }}</p>
+</div>
+
+<div class="card p-3 mt-3">
+
+    <h4>FTP 功率區間</h4>
+
+    <p>Z1 恢復區：< {{ z1 }} W</p>
+
+    <p>Z2 耐力區：{{ z2_low }} ~ {{ z2_high }} W</p>
+
+    <p>Z3 Tempo：{{ z3_low }} ~ {{ z3_high }} W</p>
+
+    <p>Z4 閾值：{{ z4_low }} ~ {{ z4_high }} W</p>
+
+    <p>Z5 VO2Max：{{ z5_low }} ~ {{ z5_high }} W</p>
 
 </div>
 
@@ -46,6 +73,8 @@ const rideDates = {{ ride_dates | tojson }};
 const rideDistances = {{ ride_distances | tojson }};
 
 const ctx = document.getElementById('distanceChart');
+
+
 
 new Chart(ctx, {
     type: 'bar',
@@ -72,5 +101,38 @@ new Chart(ctx, {
 });
 
 </script>
+
+<hr class="mt-4">
+
+<h2>平均速度紀錄</h2>
+
+<table class="table table-striped">
+
+    <thead>
+
+        <tr>
+            <th>日期</th>
+            <th>平均速度(km/h)</th>
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+        {% for i in range(ride_dates|length) %}
+
+        <tr>
+
+            <td>{{ ride_dates[i] }}</td>
+
+            <td>{{ avg_speeds[i] }}</td>
+
+        </tr>
+
+        {% endfor %}
+
+    </tbody>
+
+</table>
 
 {% endblock %}
