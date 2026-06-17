@@ -11,14 +11,49 @@
 
 <body>
 
-<nav class="navbar navbar-dark bg-dark">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
     <div class="container">
 
-        <a class="navbar-brand" href="/">
+        <a class="navbar-brand" href="/dashboard">
             🚴 BikeTrain
         </a>
 
+        <div class="navbar-nav">
+
+            <a class="nav-link"
+               href="/dashboard">
+                Dashboard
+            </a>
+
+            <li class="nav-item">
+                <a class="nav-link"
+                    href="{{ url_for('main.profile') }}">
+                    個人資料
+                </a>
+            </li>
+
+            <a class="nav-link"
+               href="/ride/add">
+                新增紀錄
+            </a>
+
+            <a class="nav-link"
+               href="/rides">
+                騎乘紀錄
+            </a>
+
+            <a class="nav-link"
+               href="/logout">
+                登出
+            </a>
+
+        </div>
+
     </div>
+
 </nav>
 
 <div class="container mt-4">

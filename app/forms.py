@@ -4,6 +4,8 @@ from wtforms import PasswordField
 from wtforms import SubmitField
 from wtforms import DateField, FloatField
 from wtforms.validators import DataRequired
+from wtforms import FloatField
+from wtforms.validators import DataRequired
 
 from wtforms.validators import (
     DataRequired,
@@ -85,3 +87,17 @@ class RideForm(FlaskForm):
     )
 
     submit = SubmitField('新增紀錄')
+
+class ProfileForm(FlaskForm):
+
+    ftp = FloatField(
+        'FTP',
+        validators=[DataRequired()]
+    )
+
+    weight = FloatField(
+        '體重',
+        validators=[DataRequired()]
+    )
+
+    submit = SubmitField('儲存')

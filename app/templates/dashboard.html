@@ -26,14 +26,51 @@
 
 </div>
 
-<a href="/ride/add"
-   class="btn btn-primary mt-3">
-   新增騎乘紀錄
+<a href="/ride/add" class="btn btn-primary mt-3">
+    新增騎乘紀錄
 </a>
 
-<a href="/rides"
-   class="btn btn-success mt-3">
-   查看騎乘紀錄
+<a href="/rides" class="btn btn-success mt-3">
+    查看騎乘紀錄
 </a>
+
+<hr class="mt-4">
+
+<h2>騎乘距離趨勢</h2>
+
+<canvas id="distanceChart"></canvas>
+
+<script>
+
+const rideDates = {{ ride_dates | tojson }};
+const rideDistances = {{ ride_distances | tojson }};
+
+const ctx = document.getElementById('distanceChart');
+
+new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: rideDates,
+        datasets: [{
+            label: '距離 (km)',
+            data: rideDistances
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                display: true
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+
+</script>
 
 {% endblock %}

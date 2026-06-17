@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>個人資料設定</h1>
+
+<div class="card p-4 mt-3">
+
+    <form method="POST">
+
+        {{ form.hidden_tag() }}
+
+        <div class="mb-3">
+            {{ form.ftp.label }}
+            {{ form.ftp(class="form-control") }}
+        </div>
+
+        <div class="mb-3">
+            {{ form.weight.label }}
+            {{ form.weight(class="form-control") }}
+        </div>
+
+        {{ form.submit(class="btn btn-primary") }}
+
+    </form>
+
+</div>
+
+{% endblock %}

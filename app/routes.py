@@ -2,23 +2,29 @@ from flask import Blueprint
 from flask import render_template
 from flask import redirect
 from flask import url_for
+
 from . import db
+
 from .models import User
+from .models import Ride
 
 from .forms import RegistrationForm
-from werkzeug.security import generate_password_hash
 from .forms import LoginForm
-from flask_login import login_user
-from flask_login import logout_user
-from flask_login import login_required
-from flask_login import current_user
-
-from werkzeug.security import check_password_hash
-from flask_login import login_required
-from flask_login import current_user
-
 from .forms import RideForm
-from .models import Ride
+from .forms import ProfileForm
+
+from werkzeug.security import (
+    generate_password_hash,
+    check_password_hash
+)
+
+from flask_login import (
+    login_user,
+    logout_user,
+    login_required,
+    current_user
+)
+
 
 main = Blueprint('main', __name__)
 
@@ -84,9 +90,8 @@ def login():
 @main.route('/dashboard')
 @login_required
 def dashboard():
-
     rides = Ride.query.filter_by(
-        user_id=current_user.id
+    user_id=current_user.id
     ).all()
 
     total_distance = sum(
@@ -99,14 +104,25 @@ def dashboard():
 
     total_rides = len(rides)
 
+    ride_dates = [
+        ride.date.strftime("%m-%d")
+        for ride in rides
+    ]
+
+    ride_distances = [
+        ride.distance
+        for ride in rides
+    ]
     return render_template(
         'dashboard.html',
         user=current_user,
         total_distance=total_distance,
         total_duration=total_duration,
-        total_rides=total_rides
+        total_rides=total_rides,
+        ride_dates=ride_dates,
+        ride_distances=ride_distances
     )
-
+        
 @main.route('/ride/add', methods=['GET', 'POST'])
 @login_required
 def add_ride():
@@ -145,4 +161,37 @@ def rides():
     return render_template(
         'rides.html',
         rides=rides
+    )
+@main.route('/logout')
+@login_required
+def logout():
+
+    logout_user()
+
+    return redirect(url_for('main.login'))
+
+@main.route('/profile', methods=['GET', 'POST'])
+@login_required
+def profile():
+
+    form = ProfileForm()
+
+    if form.validate_on_submit():
+
+        current_user.ftp = form.ftp.data
+        current_user.weight = form.weight.data
+
+        db.session.commit()
+
+        return redirect(
+            url_for('main.dashboard')
+        )
+
+    if not form.is_submitted():
+        form.ftp.data = current_user.ftp
+        form.weight.data = current_user.weight
+
+    return render_template(
+        'profile.html',
+        form=form
     )
