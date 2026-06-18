@@ -2,6 +2,8 @@ from flask import Blueprint
 from flask import render_template
 from flask import redirect
 from flask import url_for
+from datetime import date
+from datetime import timedelta
 
 from . import db
 
@@ -87,13 +89,64 @@ def login():
 @main.route('/dashboard')
 @login_required
 def dashboard():
+    today = date.today()
+
+    week_ago = today - timedelta(days=7)
+
+    month_start = today.replace(day=1)
+
+    
+
+    
+
     rides = Ride.query.filter_by(
     user_id=current_user.id
     ).all()
+    week_rides = Ride.query.filter(
+        Ride.user_id == current_user.id,
+        Ride.date >= week_ago
+    ).all()
+
+    week_ride_count = len(week_rides)
+
+    week_distance = sum(
+        ride.distance
+        for ride in week_rides
+    )
+
+    week_duration = sum(
+        ride.duration
+        for ride in week_rides
+    )
+
+
+    longest_ride = 0
+
+    if rides:
+        longest_ride = max(
+            ride.distance
+            for ride in rides
+        )
+
+    weekly_distance = 0
+    weekly_rides = 0
+
+    monthly_distance = 0
+    monthly_rides = 0
 
     avg_speeds = []
 
     for ride in rides:
+
+        if ride.date >= week_ago:
+
+            weekly_distance += ride.distance
+            weekly_rides += 1
+
+        if ride.date >= month_start:
+
+            monthly_distance += ride.distance
+            monthly_rides += 1
 
         if ride.duration > 0:
 
@@ -104,13 +157,25 @@ def dashboard():
                     1
                 )
             )
+    monthly_goal = 500
+
+    goal_progress = min(
+        round(
+            (monthly_distance / monthly_goal) * 100,
+            1
+        ),
+        100
+    )
+    
 
     if current_user.weight > 0:
         wkg = round(
             current_user.ftp /
             current_user.weight,
             2
+    
     )
+        
     else:
         wkg = 0
     if wkg < 2:
@@ -197,6 +262,13 @@ def dashboard():
     total_duration = sum(
         ride.duration for ride in rides
     )
+    if total_duration > 0:
+        avg_speed = round(
+            total_distance / total_duration,
+            1
+        )
+    else:
+        avg_speed = 0
 
     total_rides = len(rides)
 
@@ -211,6 +283,17 @@ def dashboard():
     ]
     return render_template(
     'dashboard.html',
+    monthly_goal=monthly_goal,
+    goal_progress=goal_progress,
+    week_ride_count=week_ride_count,
+    week_distance=week_distance,
+    week_duration=week_duration,
+    longest_ride=longest_ride,
+    avg_speed=avg_speed,
+    weekly_distance=weekly_distance,
+    weekly_rides=weekly_rides,
+    monthly_distance=monthly_distance,
+    monthly_rides=monthly_rides,
     user=current_user,
     total_distance=total_distance,
     total_duration=total_duration,
