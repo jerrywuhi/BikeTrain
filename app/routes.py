@@ -391,3 +391,56 @@ def profile():
         'profile.html',
         form=form
     )
+@main.route('/workouts')
+@login_required
+def workouts():
+
+    ftp = current_user.ftp
+
+    sweetspot_low = round(ftp * 0.88)
+    sweetspot_high = round(ftp * 0.94)
+
+    ftp_low = round(ftp * 0.95)
+    ftp_high = round(ftp * 1.00)
+
+    vo2_low = round(ftp * 1.10)
+    vo2_high = round(ftp * 1.20)
+
+    if current_user.weight > 0:
+
+        wkg = round(
+            current_user.ftp /
+            current_user.weight,
+            2
+    )
+
+    else:
+
+        wkg = 0
+
+    if wkg < 2:
+
+        recommended_workout = "Sweet Spot"
+
+    elif wkg < 4:
+
+        recommended_workout = "FTP Interval"
+
+    else:
+
+        recommended_workout = "VO2 Max"
+
+    return render_template(
+        'workouts.html',
+        recommended_workout=
+        recommended_workout,
+
+        sweetspot_low=sweetspot_low,
+        sweetspot_high=sweetspot_high,
+
+        ftp_low=ftp_low,
+        ftp_high=ftp_high,
+
+        vo2_low=vo2_low,
+        vo2_high=vo2_high
+    )

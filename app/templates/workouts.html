@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>訓練課表</h1>
+
+<div class="alert alert-success">
+
+    <h4>推薦課表</h4>
+
+    <p>
+        {{ recommended_workout }}
+    </p>
+
+</div>
+
+<div class="card p-3 mt-3">
+
+    <h4>Sweet Spot</h4>
+
+    <p><strong>熱身</strong></p>
+
+    <p>10 分鐘 @ Z2</p>
+
+    <hr>
+
+    <p><strong>主課表</strong></p>
+
+    <p>
+        20 分鐘 @
+        {{ sweetspot_low }}
+        ~
+        {{ sweetspot_high }}
+        W
+    </p>
+
+    <p>休息 5 分鐘</p>
+
+    <p>
+        20 分鐘 @
+        {{ sweetspot_low }}
+        ~
+        {{ sweetspot_high }}
+        W
+    </p>
+
+    <hr>
+
+    <p><strong>收操</strong></p>
+
+    <p>10 分鐘 @ Z1</p>
+
+</div>
+
+<div class="card p-3 mt-3">
+
+    <h4>FTP Interval</h4>
+
+    <p>熱身 15 分鐘</p>
+
+    <hr>
+
+    <p>
+        12 分鐘 @
+        {{ ftp_low }}
+        ~
+        {{ ftp_high }}
+        W
+    </p>
+
+    <p>休息 6 分鐘</p>
+
+    <p>重複 3 次</p>
+
+    <hr>
+
+    <p>收操 10 分鐘</p>
+
+</div>
+
+<div class="card p-3 mt-3">
+
+    <h4>VO2 Max</h4>
+
+    <p>熱身 15 分鐘</p>
+
+    <hr>
+
+    <p>
+        5 分鐘 @
+        {{ vo2_low }}
+        ~
+        {{ vo2_high }}
+        W
+    </p>
+
+    <p>休息 5 分鐘</p>
+
+    <p>重複 5 次</p>
+
+    <hr>
+
+    <p>收操 10 分鐘</p>
+
+</div>
+
+{% endblock %}

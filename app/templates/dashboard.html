@@ -2,123 +2,211 @@
 
 {% block content %}
 
-<h1>歡迎 {{ user.username }}</h1>
+<h1 class="fw-bold mb-4">
+    🚴 歡迎回來，{{ user.username }}
+</h1>
 
-<div class="card p-3 mt-3">
+<div class="row mt-3">
 
-    <h4>個人資料</h4>
+    <div class="col-md-3">
 
-    <p>FTP：{{ user.ftp }}</p>
+        <div class="card card shadow text-center p-3 border-0 h-100">
 
-    <p>體重：{{ user.weight }}</p>
+            <h5 class="text-muted">
+                FTP
+            </h5>
 
-    <p>W/kg：{{ wkg }}</p>
+            <h1 class="display-5 fw-bold">
+                {{ user.ftp }}
+            </h1>
 
-    <p>等級：{{ rider_level }}</p>
+            <p class="text-muted">
+                Watts
+            </p>
 
-</div>
+        </div>
 
-<div class="card p-3 mt-3">
+    </div>
 
-    <h4>訓練統計</h4>
+    <div class="col-md-3">
 
-    <p>平均速度：{{ avg_speed }} km/h</p>
+        <div class="card shadow  text-center p-3 border-0 h-100">
 
-    <p>最長單次距離：{{ longest_ride }} km</p>
+            <h5 class="text-muted">
+                體重
+            </h5>
 
-    <p>總騎乘次數：{{ total_rides }}</p>
+            <h1 class="display-5 fw-bold">
+                {{ user.weight }}
+            </h1>
 
-    <p>總距離：{{ total_distance }} km</p>
+            <p class="text-muted">
+                kg
+            </p>
 
-    <p>總時間：{{ total_duration }} hr</p>
 
-</div>
+        </div>
 
-<div class="card p-3 mt-3">
+    </div>
 
-    <h4>週/月統計</h4>
+    <div class="col-md-3">
 
-    <p>
-        本週騎乘次數：
-        {{ weekly_rides }}
-    </p>
+        <div class="card shadow border-0 text-center border-0 p-3 h-100">
 
-    <p>
-        本週騎乘距離：
-        {{ weekly_distance }} km
-    </p>
+            <h5 class="text-muted">
+                W/kg
+            </h5>
 
-    <hr>
+            <h1 class="display-5 fw-bold">
+                {{ wkg }}
+            </h1>
 
-    <p>
-        本月騎乘次數：
-        {{ monthly_rides }}
-    </p>
+        </div>
 
-    <p>
-        本月騎乘距離：
-        {{ monthly_distance }} km
-    </p>
+    </div>
 
-</div>
+    <div class="col-md-3">
 
-<div class="card p-3 mt-3">
+        <div class="card shadow border-0 text-center border-0 p-3 h-100">
 
-    <h4>月里程目標</h4>
+            <h5 class="text-muted">
+                等級
+            </h5>
 
-    <p>
-        {{ monthly_distance }}
-        /
-        {{ monthly_goal }}
-        km
-    </p>
-
-    <div class="progress">
-
-        <div
-            class="progress-bar"
-            role="progressbar"
-            style="width: {{ goal_progress }}%;"
-        >
-            {{ goal_progress }}%
+            <h3 class="fw-bold text-success">
+                {{ rider_level }}
+            </h3>
         </div>
 
     </div>
 
 </div>
+<div class="row mt-4">
+    <div class="col-md-6">
 
-<div class="card p-3 mt-3">
+        <div class="card p-3 h-100">
 
-    <h4>最近7天訓練量</h4>
 
-    <p>騎乘次數：{{ week_ride_count }}</p>
+        <h4>訓練統計</h4>
 
-    <p>總距離：{{ week_distance }} km</p>
+        <p>平均速度：{{ avg_speed }} km/h</p>
 
-    <p>總時間：{{ week_duration }} hr</p>
+        <p>最長單次距離：{{ longest_ride }} km</p>
+
+        <p>總騎乘次數：{{ total_rides }}</p>
+
+        <p>總距離：{{ total_distance }} km</p>
+
+        <p>總時間：{{ total_duration }} hr</p>
+
+    </div>
 
 </div>
 
-<div class="card p-3 mt-3">
-    <h4>訓練建議</h4>
+    <div class="col-md-6">
 
-    <p>{{ advice }}</p>
+        <div class="card p-3 h-100">
+
+            <h4>週/月統計</h4>
+
+            <p>
+                本週騎乘次數：
+                {{ weekly_rides }}
+            </p>
+
+            <p>
+                本週騎乘距離：
+                {{ weekly_distance }} km
+            </p>
+
+            <hr>
+
+            <p>
+                本月騎乘次數：
+                {{ monthly_rides }}
+            </p>
+
+            <p>
+                本月騎乘距離：
+                {{ monthly_distance }} km
+            </p>
+
+        </div>
+    </div>
 </div>
 
-<div class="card p-3 mt-3">
 
-    <h4>FTP 功率區間</h4>
 
-    <p>Z1 恢復區：< {{ z1 }} W</p>
+<div class="row mt-3">
+    <div class="col-md-6">
+        <div class="card p-3 mt-3 h-100">
 
-    <p>Z2 耐力區：{{ z2_low }} ~ {{ z2_high }} W</p>
+            <h4>月里程目標</h4>
 
-    <p>Z3 Tempo：{{ z3_low }} ~ {{ z3_high }} W</p>
+            <p>
+                {{ monthly_distance }}
+                /
+                {{ monthly_goal }}
+                km
+            </p>
 
-    <p>Z4 閾值：{{ z4_low }} ~ {{ z4_high }} W</p>
+            <div
+                class="progress"
+                style="height:30px;"
+            >
 
-    <p>Z5 VO2Max：{{ z5_low }} ~ {{ z5_high }} W</p>
+                <div
+                    class="progress-bar progress-bar-striped progress-bar-animated"
+                    role="progressbar"
+                    style="width: {{ goal_progress }}%;"
+                >
+                    {{ goal_progress }}%
+                </div>
 
+            </div>
+
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card p-3 mt-3 h-100">
+
+            <h4>最近7天訓練量</h4>
+
+            <p>騎乘次數：{{ week_ride_count }}</p>
+
+            <p>總距離：{{ week_distance }} km</p>
+
+            <p>總時間：{{ week_duration }} hr</p>
+
+        </div>
+    </div>
+</div>
+
+<div class="row mt-3 g-3">
+        <div class="col-md-6">
+            <div class="card p-3 h-100">
+                <h4>訓練建議</h4>
+
+                <p>{{ advice }}</p>
+            </div>
+        </div>
+
+    <div class="col-md-6">
+        <div class="card p-3 h-100">
+
+            <h4>FTP 功率區間</h4>
+
+            <p>Z1 恢復區：< {{ z1 }} W</p>
+
+            <p>Z2 耐力區：{{ z2_low }} ~ {{ z2_high }} W</p>
+
+            <p>Z3 Tempo：{{ z3_low }} ~ {{ z3_high }} W</p>
+
+            <p>Z4 閾值：{{ z4_low }} ~ {{ z4_high }} W</p>
+
+            <p>Z5 VO2Max：{{ z5_low }} ~ {{ z5_high }} W</p>
+         </div>
+    </div>
 </div>
 
 <a href="/ride/add" class="btn btn-primary mt-3">
