@@ -32,6 +32,10 @@ class User(UserMixin, db.Model):
         db.Float,
         default=0
     )
+    monthly_goal = db.Column(
+        db.Integer,
+        default=500
+    )
 
     def __repr__(self):
         return f'<User {self.username}>'

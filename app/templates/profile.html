@@ -20,6 +20,16 @@
             {{ form.weight(class="form-control") }}
         </div>
 
+        <div class="mb-3">
+            {{ form.monthly_goal.label(
+                class="form-label"
+            ) }}
+
+            {{ form.monthly_goal(
+                class="form-control"
+            ) }}
+        </div>
+
         {{ form.submit(class="btn btn-primary") }}
 
     </form>

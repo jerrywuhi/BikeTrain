@@ -100,4 +100,9 @@ class ProfileForm(FlaskForm):
         validators=[DataRequired()]
     )
 
+    monthly_goal = FloatField(
+        '月目標(km)',
+        validators=[DataRequired()]
+    )
+
     submit = SubmitField('儲存')

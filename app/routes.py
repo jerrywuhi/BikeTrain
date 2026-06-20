@@ -4,6 +4,8 @@ from flask import redirect
 from flask import url_for
 from datetime import date
 from datetime import timedelta
+from flask import flash
+from flask import abort
 
 from . import db
 
@@ -100,7 +102,9 @@ def dashboard():
     
 
     rides = Ride.query.filter_by(
-    user_id=current_user.id
+        user_id=current_user.id
+    ).order_by(
+        Ride.date.desc()
     ).all()
     week_rides = Ride.query.filter(
         Ride.user_id == current_user.id,
@@ -135,6 +139,22 @@ def dashboard():
     monthly_rides = 0
 
     avg_speeds = []
+    streak = 0
+
+    if rides:
+
+        ride_dates = {
+            ride.date
+            for ride in rides
+        }
+
+        current_day = date.today()
+
+        while current_day in ride_dates:
+
+            streak += 1
+
+            current_day -= timedelta(days=1)
 
     for ride in rides:
 
@@ -157,15 +177,18 @@ def dashboard():
                     1
                 )
             )
-    monthly_goal = 500
+    monthly_goal = current_user.monthly_goal
 
-    goal_progress = min(
-        round(
+    if monthly_goal > 0:
+
+        goal_progress = round(
             (monthly_distance / monthly_goal) * 100,
             1
-        ),
-        100
-    )
+        )
+
+    else:
+
+        goal_progress = 0
     
 
     if current_user.weight > 0:
@@ -258,6 +281,22 @@ def dashboard():
     total_distance = sum(
         ride.distance for ride in rides
     )
+    badges = []
+
+    if total_distance >= 100:
+        badges.append("🥉 100km 騎士")
+
+    if total_distance >= 500:
+        badges.append("🥈 500km 騎士")
+
+    if total_distance >= 1000:
+        badges.append("🥇 1000km 騎士")
+
+    if streak >= 7:
+        badges.append("🔥 連續騎乘 7 天")
+
+    if current_user.ftp >= 300:
+        badges.append("🚀 FTP 300W")
 
     total_duration = sum(
         ride.duration for ride in rides
@@ -283,6 +322,8 @@ def dashboard():
     ]
     return render_template(
     'dashboard.html',
+    badges=badges,
+    streak=streak,
     monthly_goal=monthly_goal,
     goal_progress=goal_progress,
     week_ride_count=week_ride_count,
@@ -376,6 +417,7 @@ def profile():
 
         current_user.ftp = form.ftp.data
         current_user.weight = form.weight.data
+        current_user.monthly_goal = form.monthly_goal.data
 
         db.session.commit()
 
@@ -386,6 +428,7 @@ def profile():
     if not form.is_submitted():
         form.ftp.data = current_user.ftp
         form.weight.data = current_user.weight
+        form.monthly_goal.data = current_user.monthly_goal
 
     return render_template(
         'profile.html',
@@ -443,4 +486,28 @@ def workouts():
 
         vo2_low=vo2_low,
         vo2_high=vo2_high
+    )
+
+@main.route('/ride/delete/<int:ride_id>')
+@login_required
+def delete_ride(ride_id):
+
+    ride = Ride.query.get_or_404(
+        ride_id
+    )
+
+    if ride.user_id != current_user.id:
+        abort(403)
+
+    db.session.delete(ride)
+
+    db.session.commit()
+
+    flash(
+        '騎乘紀錄已刪除',
+        'success'
+    )
+
+    return redirect(
+        url_for('main.rides')
     )
