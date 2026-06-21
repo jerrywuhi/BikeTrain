@@ -1,0 +1,118 @@
+:root{
+
+    --primary-color:#2563eb;
+    --secondary-color:#1e293b;
+    --success-color:#10b981;
+
+}
+
+body{
+
+    background:
+    linear-gradient(
+        180deg,
+        #eaf3f8,
+        #dce9f2
+    );
+
+}
+
+.card{
+
+    border:none;
+
+    border-radius:15px;
+
+    transition:all .3s ease;
+
+}
+
+.card:hover{
+
+    transform:translateY(-5px);
+
+    box-shadow:
+        0 15px 30px
+        rgba(0,0,0,.12);
+
+}
+.navbar {
+    padding-top: 12px;
+    padding-bottom: 12px;
+}
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+.btn {
+    border-radius: 10px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+}
+.btn-primary {
+
+    background-color: #2563eb;
+    border: none;
+
+}
+
+.btn-primary:hover {
+
+    background-color: #1d4ed8;
+
+}
+.btn-success {
+
+    background-color: #10b981;
+    border: none;
+
+}
+.btn-danger {
+
+    border: none;
+
+}
+.table {
+
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+
+}
+.hero-section {
+
+    position: relative;
+
+    padding: 120px 0;
+
+    text-align: center;
+
+}
+
+.hero-section::before {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        
+        url("/static/images/roadbike.jpg");
+
+    background-size: cover;
+
+    background-position: center;
+
+    opacity: 0.9;
+
+    z-index: -1;
+}
+.feature-section{
+    margin-top: 170px;
+}

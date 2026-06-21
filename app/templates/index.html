@@ -1,13 +1,83 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>BikeTrain</title>
-</head>
-<body>
+{% extends "base.html" %}
 
-    <h1>🚴 歡迎來到 BikeTrain</h1>
+{% block content %}
+<div class="hero-section">
+    <div class="text-center py-5">
 
-    <p>你的自行車訓練管理平台</p>
+        <h1 class="display-2 fw-bold">
+            BikeTrain
+        </h1>
 
-</body>
-</html>
+        
+    <div class="feature-section">
+        <div class="mt-5">
+
+            <a
+                href="{{ url_for('main.register') }}"
+                class="btn btn-primary btn-lg me-2"
+            >
+                免費註冊
+            </a>
+
+            <a
+                href="{{ url_for('main.login') }}"
+                class="btn btn-outline-dark btn-lg"
+            >
+                立即登入
+            </a>
+
+        </div>
+        
+
+    </div>
+    <div class="row mt-5">
+
+        <div class="col-md-4">
+
+            <div class="card p-3">
+
+                <h4>📊 訓練分析</h4>
+
+                <p>
+                    自動計算 FTP、
+                    W/kg 與功率區間
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="card p-3">
+
+                <h4>🚴 騎乘紀錄</h4>
+
+                <p>
+                    記錄距離、
+                    時間與平均速度
+                </p>
+
+            </div>
+
+        </div>
+
+            <div class="col-md-4">
+
+                <div class="card p-3">
+
+                    <h4>🏅 成就系統</h4>
+
+                    <p>
+                        解鎖里程成就
+                        持續提升自己
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -6,6 +6,8 @@ from datetime import date
 from datetime import timedelta
 from flask import flash
 from flask import abort
+from flask import request
+
 
 from . import db
 
@@ -35,8 +37,16 @@ main = Blueprint('main', __name__)
 
 @main.route('/')
 def index():
-    return render_template('index.html')
 
+    if current_user.is_authenticated:
+
+        return redirect(
+            url_for('main.dashboard')
+        )
+
+    return render_template(
+        'index.html'
+    )
 
 @main.route('/register', methods=['GET', 'POST'])
 def register():
@@ -320,8 +330,23 @@ def dashboard():
         ride.distance
         for ride in rides
     ]
+    chart_labels = []
+
+    chart_distance = []
+
+    for ride in rides:
+
+        chart_labels.append(
+            ride.date.strftime("%m/%d")
+        )
+
+        chart_distance.append(
+            ride.distance
+        )
     return render_template(
     'dashboard.html',
+    chart_labels=chart_labels,
+    chart_distance=chart_distance,
     badges=badges,
     streak=streak,
     monthly_goal=monthly_goal,
@@ -389,15 +414,31 @@ def add_ride():
 @login_required
 def rides():
 
-    rides = Ride.query.filter_by(
+    search = request.args.get(
+        'search',
+        ''
+    )
+
+    query = Ride.query.filter_by(
         user_id=current_user.id
-    ).order_by(
+    )
+
+    if search:
+
+        query = query.filter(
+            Ride.date.like(
+                f"%{search}%"
+            )
+        )
+
+    rides = query.order_by(
         Ride.date.desc()
     ).all()
 
     return render_template(
         'rides.html',
-        rides=rides
+        rides=rides,
+        search=search
     )
 @main.route('/logout')
 @login_required
@@ -486,6 +527,45 @@ def workouts():
 
         vo2_low=vo2_low,
         vo2_high=vo2_high
+    )
+@main.route('/ride/edit/<int:ride_id>',
+            methods=['GET', 'POST'])
+@login_required
+def edit_ride(ride_id):
+
+    ride = Ride.query.get_or_404(
+        ride_id
+    )
+
+    if ride.user_id != current_user.id:
+        abort(403)
+
+    form = RideForm()
+
+    if form.validate_on_submit():
+
+        ride.date = form.date.data
+        ride.distance = form.distance.data
+        ride.duration = form.duration.data
+
+        db.session.commit()
+
+        flash(
+            '騎乘紀錄已更新',
+            'success'
+        )
+
+        return redirect(
+            url_for('main.rides')
+        )
+
+    form.date.data = ride.date
+    form.distance.data = ride.distance
+    form.duration.data = ride.duration
+
+    return render_template(
+        'edit_ride.html',
+        form=form
     )
 
 @main.route('/ride/delete/<int:ride_id>')

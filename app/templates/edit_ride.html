@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="card shadow-sm p-4">
+
+    <h2 class="mb-4">
+        ✏️ 編輯騎乘紀錄
+    </h2>
+
+    <form method="POST">
+
+        {{ form.hidden_tag() }}
+
+        <div class="mb-3">
+
+            {{ form.date.label(class="form-label") }}
+
+            {{ form.date(class="form-control") }}
+
+        </div>
+
+        <div class="mb-3">
+
+            {{ form.distance.label(class="form-label") }}
+
+            {{ form.distance(class="form-control") }}
+
+        </div>
+
+        <div class="mb-3">
+
+            {{ form.duration.label(class="form-label") }}
+
+            {{ form.duration(class="form-control") }}
+
+        </div>
+
+        <button
+            type="submit"
+            class="btn btn-warning"
+        >
+            💾 儲存修改
+        </button>
+
+        <a
+            href="{{ url_for('main.rides') }}"
+            class="btn btn-secondary"
+        >
+            返回
+        </a>
+
+    </form>
+
+</div>
+
+{% endblock %}
