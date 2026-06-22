@@ -1,12 +1,13 @@
 import os
+
 class Config:
 
-    SECRET_KEY = os.environ.get(
+    SECRET_KEY = os.getenv(
         'SECRET_KEY',
         'bike-train-secret-key'
     )
 
-    SQLALCHEMY_DATABASE_URI = os.environ.get(
+    SQLALCHEMY_DATABASE_URI = os.getenv(
         'DATABASE_URL'
     )
 
