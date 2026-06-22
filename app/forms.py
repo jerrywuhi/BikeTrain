@@ -1,4 +1,6 @@
 from flask_wtf import FlaskForm
+from flask_wtf.file import FileAllowed
+from flask_wtf.file import FileField
 from wtforms import StringField
 from wtforms import PasswordField
 from wtforms import SubmitField
@@ -6,6 +8,7 @@ from wtforms import DateField, FloatField
 from wtforms.validators import DataRequired
 from wtforms import FloatField
 from wtforms.validators import DataRequired
+from wtforms import SelectField
 
 from wtforms.validators import (
     DataRequired,
@@ -13,7 +16,11 @@ from wtforms.validators import (
     EqualTo,
     Length
 )
+import os
 
+from werkzeug.utils import secure_filename
+
+from flask import current_app
 
 class RegistrationForm(FlaskForm):
 
@@ -85,6 +92,17 @@ class RideForm(FlaskForm):
         '時間(hr)',
         validators=[DataRequired()]
     )
+    ride_type = SelectField(
+        '騎乘類型',
+        choices=[
+            ('Z2耐力', 'Z2耐力'),
+            ('FTP訓練', 'FTP訓練'),
+            ('VO2Max', 'VO2Max'),
+            ('爬坡訓練', '爬坡訓練'),
+            ('長距離', '長距離'),
+            ('恢復騎', '恢復騎')
+        ]
+    )
 
     submit = SubmitField('新增紀錄')
 
@@ -106,3 +124,12 @@ class ProfileForm(FlaskForm):
     )
 
     submit = SubmitField('儲存')
+    profile_image = FileField(
+    '頭像',
+    validators=[
+        FileAllowed(
+            ['jpg', 'jpeg', 'png'],
+            '只能上傳圖片'
+        )
+    ]
+)

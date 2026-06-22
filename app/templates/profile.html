@@ -1,14 +1,99 @@
 {% extends "base.html" %}
 
 {% block content %}
+<div class="card shadow border-0 p-4 mb-4">
 
-<h1>個人資料設定</h1>
+    <div class="row align-items-center">
 
-<div class="card p-4 mt-3">
+        <div class="col-md-2 text-center">
 
-    <form method="POST">
+           {% if current_user.profile_image %}
+
+            <img
+                src="{{ url_for(
+                    'static',
+                    filename='profile_pics/' + current_user.profile_image
+                ) }}"
+                class="profile-avatar"
+            >
+
+            {% else %}
+
+            <div class="avatar-circle">
+                {{ current_user.username[0]|upper }}
+            </div>
+
+            {% endif %}
+
+        </div>
+        
+
+        <div class="col-md-10">
+
+            <h2 class="fw-bold">
+                {{ current_user.username }}
+            </h2>
+            <p class="badge bg-success fs-6">
+                🚴 進階騎士
+            </p>
+
+            
+
+            
+
+            <p>
+                <div class="mb-3">
+
+                    <p><strong>⚡ FTP：</strong> {{ current_user.ftp }} W</p>
+
+                    
+
+                </div>
+                <div class="mb-3">
+
+                   <p><strong>⚖️ 體重：</strong> {{ current_user.weight }} kg</p>
+
+                  
+
+                </div>
+                <div class="mb-3">
+
+                   <p><strong>🎯 月目標：</strong> {{ current_user.monthly_goal }} km</p>
+                   
+
+                </div>
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+<h3 class="mb-4">
+    ⚙️ 個人資料設定
+</h3>
+
+<div class="card shadow border-0 p-4">
+
+    <form
+        method="POST"
+        enctype="multipart/form-data"
+    >
+        
 
         {{ form.hidden_tag() }}
+        <div class="mb-3">
+
+                <label class="form-label fw-bold">
+                    📷 個人頭像
+                </label>
+
+                {{ form.profile_image(
+                    class="form-control"
+                ) }}
+
+            </div>
 
         <div class="mb-3">
             {{ form.ftp.label }}
@@ -30,9 +115,16 @@
             ) }}
         </div>
 
-        {{ form.submit(class="btn btn-primary") }}
+       <button
+            type="submit"
+            class="btn btn-primary px-4"
+        >
+            💾 儲存設定
+</button> 
+       
 
     </form>
+    
 
 </div>
 

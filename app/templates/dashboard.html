@@ -84,13 +84,16 @@
 
     </div>
 
-    <div class="card shadow-sm border-0 p-3 mt-3">
+    <div class="col-md-12">
+        <div class="card shadow-sm border-0 p-3 mt-3">
+        
+            <h4>🔥 連續騎乘天數</h4>
 
-        <h4>🔥 連續騎乘天數</h4>
+            <h2>
+                {{ streak }} 天
+            </h2>
 
-        <h2>
-            {{ streak }} 天
-        </h2>
+        </div>
 
     </div>
 
@@ -224,6 +227,8 @@
 </div>
 
 
+
+
 <div class="row mt-3 g-3">
         <div class="col-md-6">
             <div class="card p-3 h-100">
@@ -261,9 +266,33 @@
 
 <hr class="mt-4">
 
-<h2>騎乘距離趨勢</h2>
+<div class="row mt-4">
 
-<canvas id="distanceChart"></canvas>
+    <div class="col-lg-8">
+
+        <div class="card p-3">
+
+            <h4>📊 騎乘距離趨勢</h4>
+
+            <canvas id="distanceChart"></canvas>
+
+        </div>
+
+    </div>
+
+    <div class="col-lg-4">
+
+        <div class="card p-3">
+
+            <h4>🥧 訓練類型分布</h4>
+
+            <canvas id="typeChart"></canvas>
+
+        </div>
+
+    </div>
+
+</div>
 
 <script>
 
@@ -298,7 +327,41 @@ new Chart(ctx, {
     }
 });
 
+const typeCtx = document.getElementById(
+    'typeChart'
+);
+
+new Chart(typeCtx, {
+
+    type: 'pie',
+
+    data: {
+
+        labels: {{ pie_labels|tojson }},
+
+        datasets: [{
+
+            data: {{ pie_data|tojson }},
+
+            radius: '70%'
+
+        }]
+
+    },
+
+    options: {
+
+        responsive: true,
+
+        maintainAspectRatio: true
+
+    }
+
+});
+
 </script>
+
+
 
 <hr class="mt-4">
 

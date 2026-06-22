@@ -18,13 +18,8 @@ body{
 }
 
 .card{
-
     border:none;
-
     border-radius:15px;
-
-    transition:all .3s ease;
-
 }
 
 .card:hover{
@@ -36,9 +31,14 @@ body{
         rgba(0,0,0,.12);
 
 }
-.navbar {
-    padding-top: 12px;
-    padding-bottom: 12px;
+.navbar{
+
+    background:
+        rgba(15,23,42,.92);
+
+    backdrop-filter:
+        blur(10px);
+
 }
 .navbar-brand {
     font-size: 1.5rem;
@@ -83,16 +83,11 @@ body{
     overflow: hidden;
 
 }
-.hero-section {
 
-    position: relative;
 
-    padding: 120px 0;
-
-    text-align: center;
-
+.feature-section{
+    margin-top: 400px;
 }
-
 .hero-section::before {
 
     content: "";
@@ -102,17 +97,109 @@ body{
     inset: 0;
 
     background:
-        
         url("/static/images/roadbike.jpg");
 
     background-size: cover;
 
     background-position: center;
 
-    opacity: 0.9;
-
     z-index: -1;
 }
-.feature-section{
-    margin-top: 170px;
+.hero-btn-primary{
+
+    background:#2563eb;
+
+    color:white;
+
+    padding:14px 32px;
+
+    border-radius:50px;
+
+    font-weight:700;
+
+    text-decoration:none;
+
+    transition:.3s;
+}
+
+.hero-btn-primary:hover{
+
+    background:#2563eb;
+
+    transform:translateY(-2px);
+
+    color:white;
+}
+.hero-btn-secondary{
+
+    background:white;
+
+    color:#1e293b;
+
+    padding:14px 32px;
+
+    border-radius:50px;
+
+    font-weight:700;
+
+    text-decoration:none;
+
+    margin-left:12px;
+
+    box-shadow:
+        0 5px 15px rgba(0,0,0,.15);
+
+    transition:.3s;
+}
+
+.hero-btn-secondary:hover{
+
+    background:#f8fafc;
+
+    color:#1e293b;
+
+    transform:translateY(-2px);
+}
+.avatar-circle{
+
+    width:100px;
+    height:100px;
+
+    border-radius:50%;
+
+    background:#2563eb;
+
+    color:white;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    margin:auto;
+
+    font-size:42px;
+
+    font-weight:bold;
+
+    box-shadow:
+        0 8px 20px
+        rgba(37,99,235,.25);
+
+}
+.profile-avatar{
+
+    width:120px;
+    height:120px;
+
+    border-radius:50%;
+
+    object-fit:cover;
+
+    border:4px solid white;
+
+    box-shadow:
+        0 8px 20px rgba(0,0,0,.15);
+
 }

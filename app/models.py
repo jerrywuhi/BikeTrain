@@ -36,6 +36,10 @@ class User(UserMixin, db.Model):
         db.Integer,
         default=500
     )
+    profile_image = db.Column(
+        db.String(200),
+        default=''
+    )
 
     def __repr__(self):
         return f'<User {self.username}>'
@@ -72,6 +76,10 @@ class Ride(db.Model):
     duration = db.Column(
         db.Float,
         nullable=False
+    )
+    ride_type = db.Column(
+        db.String(50),
+        default='Z2耐力'
     )
 
    

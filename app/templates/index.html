@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="hero-section">
+<section class="hero-section">
     <div class="text-center py-5">
 
         <h1 class="display-2 fw-bold">
@@ -14,22 +14,24 @@
 
             <a
                 href="{{ url_for('main.register') }}"
-                class="btn btn-primary btn-lg me-2"
+                class="hero-btn-primary"
             >
-                免費註冊
+                免費開始訓練
             </a>
 
             <a
                 href="{{ url_for('main.login') }}"
-                class="btn btn-outline-dark btn-lg"
+                class="hero-btn-secondary"
             >
-                立即登入
+                已有帳號登入
             </a>
 
         </div>
         
 
     </div>
+
+  
     <div class="row mt-5">
 
         <div class="col-md-4">
@@ -79,5 +81,6 @@
 
         </div>
     </div>
-</div>
+
+</section>
 {% endblock %}

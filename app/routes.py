@@ -1,3 +1,4 @@
+import os
 from flask import Blueprint
 from flask import render_template
 from flask import redirect
@@ -7,7 +8,7 @@ from datetime import timedelta
 from flask import flash
 from flask import abort
 from flask import request
-
+from flask import current_app
 
 from . import db
 
@@ -30,6 +31,8 @@ from flask_login import (
     login_required,
     current_user
 )
+from werkzeug.utils import secure_filename
+
 
 
 main = Blueprint('main', __name__)
@@ -343,8 +346,31 @@ def dashboard():
         chart_distance.append(
             ride.distance
         )
+    ride_type_count = {}
+
+    for ride in rides:
+
+        ride_type = ride.ride_type
+
+        if ride_type in ride_type_count:
+
+            ride_type_count[ride_type] += 1
+
+        else:
+
+            ride_type_count[ride_type] = 1
+        pie_labels = list(
+        ride_type_count.keys()
+    )
+
+    pie_data = list(
+        ride_type_count.values()
+    )
+
     return render_template(
     'dashboard.html',
+    pie_labels=pie_labels,
+    pie_data=pie_data,
     chart_labels=chart_labels,
     chart_distance=chart_distance,
     badges=badges,
@@ -397,6 +423,7 @@ def add_ride():
             user_id=current_user.id,
             date=form.date.data,
             distance=form.distance.data,
+            ride_type=form.ride_type.data,
             duration=form.duration.data
         )
 
@@ -455,21 +482,37 @@ def profile():
     form = ProfileForm()
 
     if form.validate_on_submit():
+        current_user.ftp = form.ftp.data
 
         current_user.ftp = form.ftp.data
         current_user.weight = form.weight.data
         current_user.monthly_goal = form.monthly_goal.data
+
+        if form.profile_image.data:
+            
+                    
+            filename = secure_filename(
+                form.profile_image.data.filename
+            )
+
+            image_path = os.path.join(
+                current_app.root_path,
+                'static',
+                'profile_pics',
+                filename
+            )
+
+            form.profile_image.data.save(
+                image_path
+            )
+
+            current_user.profile_image = filename
 
         db.session.commit()
 
         return redirect(
             url_for('main.dashboard')
         )
-
-    if not form.is_submitted():
-        form.ftp.data = current_user.ftp
-        form.weight.data = current_user.weight
-        form.monthly_goal.data = current_user.monthly_goal
 
     return render_template(
         'profile.html',
@@ -547,6 +590,7 @@ def edit_ride(ride_id):
         ride.date = form.date.data
         ride.distance = form.distance.data
         ride.duration = form.duration.data
+        ride.ride_type = form.ride_type.data
 
         db.session.commit()
 
@@ -562,6 +606,7 @@ def edit_ride(ride_id):
     form.date.data = ride.date
     form.distance.data = ride.distance
     form.duration.data = ride.duration
+    form.ride_type.data = ride.ride_type
 
     return render_template(
         'edit_ride.html',

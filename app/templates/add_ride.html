@@ -12,6 +12,11 @@
         <br>
         {{ form.date() }}
     </p>
+    
+    <div class="mb-3">
+        {{ form.ride_type.label(class="form-label") }}
+        {{ form.ride_type(class="form-select") }}
+    </div>
 
     <p>
         {{ form.distance.label }}
