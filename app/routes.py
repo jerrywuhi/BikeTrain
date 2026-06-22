@@ -214,21 +214,7 @@ def dashboard():
         
     else:
         wkg = 0
-    if wkg < 2:
-        rider_level = "新手騎士"
-
-    elif wkg < 3:
-        rider_level = "休閒騎士"
-
-    elif wkg < 4:
-        rider_level = "進階騎士"
-
-    elif wkg < 5:
-        rider_level = "競賽級騎士"
-
-    else:
-        rider_level = "菁英級騎士"
-
+    
     if wkg < 2:
         rider_level = "新手騎士"
 
@@ -346,6 +332,10 @@ def dashboard():
         chart_distance.append(
             ride.distance
         )
+    # 圓餅圖資料
+    pie_labels = []
+    pie_data = []
+
     ride_type_count = {}
 
     for ride in rides:
@@ -353,13 +343,11 @@ def dashboard():
         ride_type = ride.ride_type
 
         if ride_type in ride_type_count:
-
             ride_type_count[ride_type] += 1
-
         else:
-
             ride_type_count[ride_type] = 1
-        pie_labels = list(
+
+    pie_labels = list(
         ride_type_count.keys()
     )
 
